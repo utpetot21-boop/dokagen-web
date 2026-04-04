@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-bgLight text-textPrimary font-sans;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-textPrimary;
+    line-height: 1.3;
+  }
+
+  input, textarea, select, button {
+    font-family: inherit;
+  }
+
+  /* Remove default button styles */
+  button {
+    cursor: pointer;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F4F4F8;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #D0D0DC;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9898A8;
+  }
+}
+
+@layer components {
+  /* Table base */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th {
+    @apply text-left text-xs font-semibold text-textSecondary uppercase tracking-wide;
+  }
+
+  /* Focus ring default */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary;
+  }
+}

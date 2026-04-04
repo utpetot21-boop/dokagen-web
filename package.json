@@ -1,0 +1,39 @@
+{
+  "name": "dokagen-web",
+  "version": "1.0.0",
+  "description": "DokaGen Web Admin — Next.js 14",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.28.6",
+    "@tanstack/react-table": "^8.15.3",
+    "axios": "^1.6.8",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.358.0",
+    "next": "^16.2.2",
+    "next-auth": "^4.24.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-pdf": "^10.4.1",
+    "recharts": "^2.12.3",
+    "tailwind-merge": "^2.2.2",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.71",
+    "@types/react-dom": "^18.2.22",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^16.2.2",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.4.3"
+  }
+}
