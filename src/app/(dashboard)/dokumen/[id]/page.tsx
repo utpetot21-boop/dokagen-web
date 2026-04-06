@@ -7,6 +7,7 @@ import PembayaranSection from '@/components/dokumen/PembayaranSection';
 import KirimEmailButton from '@/components/dokumen/KirimEmailButton';
 import { formatRupiah, formatTanggal } from '@/lib/formatters';
 import Link from 'next/link';
+import PreviewPrintButtons from '@/components/dokumen/PreviewPrintButtons';
 import type { Dokumen } from '@/types/dokumen';
 
 async function fetchDokumen(id: string, token?: string): Promise<Dokumen | null> {
@@ -70,6 +71,7 @@ export default async function DokumenDetailPage({ params }: { params: Promise<{ 
         subtitle={`${doc.tipe === 'invoice' ? 'Invoice' : doc.tipe === 'sph' ? 'SPH' : doc.tipe === 'kasbon' ? 'Kasbon' : 'Surat Hutang'} · ${formatTanggal(doc.tanggalDokumen)}`}
         action={
           <div className="flex gap-2">
+            <PreviewPrintButtons pdfUrl={pdfUrl} />
             <a
               href={pdfUrl}
               target="_blank"
