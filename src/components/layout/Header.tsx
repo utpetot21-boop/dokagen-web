@@ -11,26 +11,24 @@ interface HeaderProps {
 
 export default function Header({ title, subtitle, action }: HeaderProps) {
   const { data: session } = useSession();
+  const initials = session?.user?.email?.[0].toUpperCase() ?? 'U';
 
   return (
-    <header className="bg-white border-b border-[#E8E8EE] px-6 py-4">
+    <header className="bg-white border-b border-[#E5E5EA] px-6 py-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-textPrimary">{title}</h1>
+          <h1 className="text-lg font-bold text-textPrimary tracking-tight">{title}</h1>
           {subtitle && (
-            <p className="text-sm text-textSecondary mt-0.5">{subtitle}</p>
+            <p className="text-xs text-textSecondary mt-0.5">{subtitle}</p>
           )}
         </div>
         <div className="flex items-center gap-3">
           {action}
-          {/* User avatar */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-white text-xs font-bold">
-                {session?.user?.email?.[0].toUpperCase() ?? 'U'}
-              </span>
+          <div className="flex items-center gap-2 pl-3 border-l border-[#E5E5EA]">
+            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center shadow-ios">
+              <span className="text-white text-[11px] font-bold">{initials}</span>
             </div>
-            <span className="text-sm text-textSecondary hidden md:block">
+            <span className="text-xs text-textSecondary hidden md:block max-w-[140px] truncate">
               {session?.user?.email}
             </span>
           </div>

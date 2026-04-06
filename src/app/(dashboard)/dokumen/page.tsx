@@ -18,8 +18,7 @@ export default async function DokumenPage() {
         action={
           <Link
             href="/dokumen/baru"
-            className="bg-accent text-white px-4 py-2 rounded-button text-sm font-semibold
-              hover:bg-[#E09520] transition-colors flex items-center gap-2"
+            className="flex items-center gap-1.5 bg-primary text-white px-4 py-2 rounded-button text-sm font-semibold hover:bg-[#163264] transition-all shadow-ios"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
