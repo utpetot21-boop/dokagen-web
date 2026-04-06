@@ -1,5 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { notFound } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import StatusBadge from '@/components/dokumen/StatusBadge';
 import UpdateStatusButton from '@/components/dokumen/UpdateStatusButton';
@@ -9,25 +10,31 @@ import { formatRupiah, formatTanggal } from '@/lib/formatters';
 import Link from 'next/link';
 import type { Dokumen } from '@/types/dokumen';
 
-async function fetchDokumen(id: string, token?: string): Promise<Dokumen> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/dokumen/${id}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+async function fetchDokumen(id: string, token?: string): Promise<Dokumen | null> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/dokumen/${id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        cache: 'no-store',
       },
-      cache: 'no-store',
-    },
-  );
-  if (!res.ok) throw new Error('Dokumen tidak ditemukan');
-  const json = await res.json();
-  return json.data as Dokumen;
+    );
+    if (res.status === 404) return null;
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data as Dokumen;
+  } catch {
+    return null;
+  }
 }
 
 export default async function DokumenDetailPage({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   const doc = await fetchDokumen(params.id, session?.accessToken);
+  if (!doc) notFound();
 
   const pdfUrl = `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/dokumen/${doc.id}/pdf`;
 
