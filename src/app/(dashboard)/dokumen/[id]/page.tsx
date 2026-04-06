@@ -11,10 +11,8 @@ import PreviewPrintButtons from '@/components/dokumen/PreviewPrintButtons';
 import type { Dokumen } from '@/types/dokumen';
 
 async function fetchDokumen(id: string, token?: string): Promise<Dokumen | null> {
-  console.log('[DEBUG] fetchDokumen id:', id, '| token:', token ? 'ADA' : 'TIDAK ADA');
   try {
     const url = `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/dokumen/${id}`;
-    console.log('[DEBUG] fetch URL:', url);
     const res = await fetch(url,
       {
         headers: {
@@ -24,7 +22,6 @@ async function fetchDokumen(id: string, token?: string): Promise<Dokumen | null>
         cache: 'no-store',
       },
     );
-    console.log('[DEBUG] API response status:', res.status);
     if (!res.ok) return null;
     const json = await res.json();
     return json.data as Dokumen ?? null;
