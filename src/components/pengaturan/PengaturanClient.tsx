@@ -153,13 +153,22 @@ export default function PengaturanClient({
     setError('');
 
     try {
+      // Strip fields not in schema and convert null → remove key
+      const allowed = ['nama','kodeDokumen','npwp','website','alamat','kota','provinsi','kodePos',
+        'noTelp','email','matauang','formatTanggal','temaInvoice','prefixInvoice','prefixSph',
+        'prefixSuratHutang','prefixKasbon','counterInvoice','counterSph','counterSuratHutang',
+        'counterKasbon','pajakDefaultPersen','namaBank','noRekening','atasNama','cabangBank',
+        'namaDirektur','jabatanDirektur'];
+      const body = Object.fromEntries(
+        Object.entries(form).filter(([k, v]) => allowed.includes(k) && v !== null && v !== undefined)
+      );
       const res = await fetch(`${BASE}/perusahaan/me`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(body),
       });
       const json = await res.json();
       if (!res.ok) { setError(json.message ?? 'Gagal menyimpan'); return; }
