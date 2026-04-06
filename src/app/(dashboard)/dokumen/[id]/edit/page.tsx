@@ -18,15 +18,16 @@ async function fetchDokumen(id: string, token: string) {
   return json.data;
 }
 
-export default async function EditDokumenPage({ params }: { params: { id: string } }) {
+export default async function EditDokumenPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
   if (!session?.accessToken) redirect('/login');
 
-  const doc = await fetchDokumen(params.id, session.accessToken);
+  const doc = await fetchDokumen(id, session.accessToken);
   if (!doc) notFound();
 
   if (doc.status !== 'draft') {
-    redirect(`/dokumen/${params.id}`);
+    redirect(`/dokumen/${id}`);
   }
 
   const tipeLabel = doc.tipe === 'invoice' ? 'Invoice'

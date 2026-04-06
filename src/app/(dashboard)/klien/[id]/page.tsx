@@ -32,11 +32,12 @@ const tipeLabel: Record<string, string> = {
   invoice: 'Invoice', sph: 'SPH', surat_hutang: 'Surat Hutang',
 };
 
-export default async function KlienDetailPage({ params }: { params: { id: string } }) {
+export default async function KlienDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
   const [klien, dokumen] = await Promise.all([
-    fetchKlien(params.id, session?.accessToken),
-    fetchKlienDokumen(params.id, session?.accessToken),
+    fetchKlien(id, session?.accessToken),
+    fetchKlienDokumen(id, session?.accessToken),
   ]);
 
   const totalPendapatan = dokumen

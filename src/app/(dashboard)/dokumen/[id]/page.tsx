@@ -55,9 +55,10 @@ function DokumenTidakDitemukan() {
   );
 }
 
-export default async function DokumenDetailPage({ params }: { params: { id: string } }) {
+export default async function DokumenDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
-  const doc = await fetchDokumen(params.id, session?.accessToken);
+  const doc = await fetchDokumen(id, session?.accessToken);
   if (!doc) return <DokumenTidakDitemukan />;
 
   const pdfUrl = `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/dokumen/${doc.id}/pdf`;
