@@ -158,7 +158,7 @@ export default function PengaturanClient({
         profil:    ['nama','email','noTelp','alamat','kota','provinsi','kodePos','npwp','website'],
         dokumen:   ['kodeDokumen','prefixInvoice','prefixSph','prefixSuratHutang','prefixKasbon',
                     'counterInvoice','counterSph','counterSuratHutang','counterKasbon',
-                    'pajakDefaultPersen','matauang','formatTanggal'],
+                    'pajakDefaultPersen'],
         bank:      ['namaBank','noRekening','atasNama','cabangBank'],
         tema:      ['temaInvoice','namaDirektur','jabatanDirektur'],
         identitas: [],
