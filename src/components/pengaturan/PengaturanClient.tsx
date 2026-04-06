@@ -181,6 +181,7 @@ export default function PengaturanClient({
       const json = await res.json();
       if (!res.ok) { setError(json.message ?? 'Gagal menyimpan'); return; }
       setSuccess('Pengaturan berhasil disimpan');
+      setTimeout(() => setSuccess(''), 3000);
       router.refresh();
     } catch {
       setError('Terjadi kesalahan jaringan');
@@ -247,7 +248,7 @@ export default function PengaturanClient({
   };
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-4xl w-full">
       {/* Tabs */}
       <div className="flex gap-1 bg-bgLight rounded-xl p-1 mb-6">
         {TABS.map((t) => (
