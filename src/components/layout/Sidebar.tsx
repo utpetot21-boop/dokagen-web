@@ -64,7 +64,7 @@ export default function Sidebar() {
   return (
     <aside className="w-60 min-h-screen bg-white border-r border-[#E8E8EE] flex flex-col">
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-[#E8E8EE]">
+      <div className="px-5 py-4 border-b border-[#E8E8EE]">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

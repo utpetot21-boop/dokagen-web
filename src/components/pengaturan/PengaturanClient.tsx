@@ -248,7 +248,7 @@ export default function PengaturanClient({
   };
 
   return (
-    <div className="max-w-4xl w-full">
+    <div className="w-full">
       {/* Tabs */}
       <div className="flex gap-1 bg-bgLight rounded-xl p-1 mb-6">
         {TABS.map((t) => (
