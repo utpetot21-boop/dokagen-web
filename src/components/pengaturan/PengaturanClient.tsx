@@ -153,14 +153,22 @@ export default function PengaturanClient({
     setError('');
 
     try {
-      // Strip fields not in schema and convert null → remove key
-      const allowed = ['nama','kodeDokumen','npwp','website','alamat','kota','provinsi','kodePos',
-        'noTelp','email','matauang','formatTanggal','temaInvoice','prefixInvoice','prefixSph',
-        'prefixSuratHutang','prefixKasbon','counterInvoice','counterSph','counterSuratHutang',
-        'counterKasbon','pajakDefaultPersen','namaBank','noRekening','atasNama','cabangBank',
-        'namaDirektur','jabatanDirektur'];
+      // Tiap tab hanya kirim field miliknya agar tidak saling interferensi validasi
+      const fieldsByTab: Record<string, (keyof Perusahaan)[]> = {
+        profil:    ['nama','email','noTelp','alamat','kota','provinsi','kodePos','npwp','website'],
+        dokumen:   ['kodeDokumen','prefixInvoice','prefixSph','prefixSuratHutang','prefixKasbon',
+                    'counterInvoice','counterSph','counterSuratHutang','counterKasbon',
+                    'pajakDefaultPersen','matauang','formatTanggal'],
+        bank:      ['namaBank','noRekening','atasNama','cabangBank'],
+        tema:      ['temaInvoice','namaDirektur','jabatanDirektur'],
+        identitas: [],
+        pengguna:  [],
+      };
+      const tabFields = fieldsByTab[activeTab] ?? [];
       const body = Object.fromEntries(
-        Object.entries(form).filter(([k, v]) => allowed.includes(k) && v !== null && v !== undefined)
+        tabFields
+          .filter((k) => form[k] !== null && form[k] !== undefined)
+          .map((k) => [k, form[k]])
       );
       const res = await fetch(`${BASE}/perusahaan/me`, {
         method: 'PUT',
