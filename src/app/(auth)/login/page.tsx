@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -105,13 +104,7 @@ export default function LoginPage() {
           </form>
         </div>
 
-        <p className="text-center text-sm text-textSecondary mt-6">
-          Belum punya akun?{' '}
-          <Link href="/register" className="text-primary font-semibold hover:underline">
-            Daftar gratis
-          </Link>
-        </p>
-        <p className="text-center text-xs text-textSecondary mt-3">
+        <p className="text-center text-xs text-textSecondary mt-6">
           DokaGen &copy; {new Date().getFullYear()} — Document Generator untuk UMKM
         </p>
       </div>
