@@ -498,7 +498,11 @@ export default function PengaturanClient({
               { key: 'ttd' as const, label: 'Tanda Tangan', desc: 'Muncul di bagian pengesahan', urlKey: 'ttdUrl', ref: ttdRef },
               { key: 'stempel' as const, label: 'Stempel / Cap', desc: 'Di samping tanda tangan', urlKey: 'stempelUrl', ref: stempelRef },
             ].map(({ key, label, desc, urlKey, ref }) => {
-              const url = form[urlKey as keyof Perusahaan] as string | undefined;
+              const rawUrl = form[urlKey as keyof Perusahaan] as string | undefined;
+              const apiOrigin = BASE.replace(/\/api$/, '');
+              const url = rawUrl
+                ? rawUrl.startsWith('http') ? rawUrl : `${apiOrigin}/${rawUrl.replace(/^\//, '')}`
+                : undefined;
               const isUploading = uploading === key;
               return (
                 <div key={key} className="flex items-center gap-4 p-4 rounded-xl border border-[#E8E8EE] hover:border-primary/40 transition-colors">
