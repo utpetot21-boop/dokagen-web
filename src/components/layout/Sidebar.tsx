@@ -74,7 +74,7 @@ export default function Sidebar() {
       {/* Brand */}
       <div className="px-4 py-4 border-b border-[#E5E5EA]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-[10px] flex items-center justify-center flex-shrink-0 overflow-hidden bg-primary shadow-ios">
+          <div className="w-8 h-8 rounded-[10px] flex items-center justify-center flex-shrink-0 overflow-hidden">
             {logoUrl ? (
               <Image src={logoUrl} alt="Logo" width={32} height={32} className="w-full h-full object-contain" />
             ) : (
