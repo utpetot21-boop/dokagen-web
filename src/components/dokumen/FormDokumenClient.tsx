@@ -182,232 +182,252 @@ export default function FormDokumenClient({ initialData }: { initialData?: Initi
   const labelCls = 'block text-xs font-semibold text-textSecondary uppercase tracking-wide mb-1';
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl space-y-6">
+    <form onSubmit={handleSubmit} className="w-full">
       {error && (
-        <div className="bg-[#FCEBEB] text-[#791F1F] px-4 py-3 rounded-card text-sm">
+        <div className="bg-[#FCEBEB] text-[#791F1F] px-4 py-3 rounded-card text-sm mb-4">
           {error}
         </div>
       )}
 
-      {/* Tipe */}
-      <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
-        <h2 className="font-semibold text-textPrimary mb-4">Tipe Dokumen</h2>
-        <div className="grid grid-cols-3 gap-3">
-          {([
-            { value: 'invoice', label: 'Invoice', desc: 'Tagihan pembayaran' },
-            { value: 'sph', label: 'SPH', desc: 'Surat Penawaran Harga' },
-            { value: 'surat_hutang', label: 'Surat Hutang', desc: 'Pengakuan hutang' },
-          ] as const).map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => !isEdit && setTipe(opt.value)}
-              disabled={isEdit}
-              className={`p-4 rounded-card border-2 text-left transition-colors ${
-                tipe === opt.value
-                  ? 'border-primary bg-[#EEF3FB]'
-                  : 'border-[#E8E8EE] hover:border-primary/40'
-              } ${isEdit ? 'cursor-not-allowed opacity-70' : ''}`}
-            >
-              <p className={`font-semibold text-sm ${tipe === opt.value ? 'text-primary' : 'text-textPrimary'}`}>
-                {opt.label}
-              </p>
-              <p className="text-xs text-textSecondary mt-0.5">{opt.desc}</p>
-            </button>
-          ))}
-        </div>
-      </div>
+      <div className="flex gap-6 items-start">
+        {/* ── Kolom Kiri (form utama) ── */}
+        <div className="flex-1 min-w-0 space-y-4">
 
-      {/* Info Dokumen */}
-      <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
-        <h2 className="font-semibold text-textPrimary mb-4">Info Dokumen</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className={labelCls}>Klien *</label>
-            <select
-              value={klienId}
-              onChange={(e) => setKlienId(e.target.value)}
-              required
-              className={inputCls}
-            >
-              <option value="">-- Pilih Klien --</option>
-              {klienList.map((k) => (
-                <option key={k.id} value={k.id}>{k.nama}</option>
+          {/* Tipe */}
+          <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
+            <h2 className="font-semibold text-textPrimary mb-3">Tipe Dokumen</h2>
+            <div className="grid grid-cols-3 gap-3">
+              {([
+                { value: 'invoice', label: 'Invoice', desc: 'Tagihan pembayaran' },
+                { value: 'sph', label: 'SPH', desc: 'Surat Penawaran Harga' },
+                { value: 'surat_hutang', label: 'Surat Hutang', desc: 'Pengakuan hutang' },
+              ] as const).map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => !isEdit && setTipe(opt.value)}
+                  disabled={isEdit}
+                  className={`p-4 rounded-card border-2 text-left transition-colors ${
+                    tipe === opt.value
+                      ? 'border-primary bg-[#EEF3FB]'
+                      : 'border-[#E8E8EE] hover:border-primary/40'
+                  } ${isEdit ? 'cursor-not-allowed opacity-70' : ''}`}
+                >
+                  <p className={`font-semibold text-sm ${tipe === opt.value ? 'text-primary' : 'text-textPrimary'}`}>
+                    {opt.label}
+                  </p>
+                  <p className="text-xs text-textSecondary mt-0.5">{opt.desc}</p>
+                </button>
               ))}
-            </select>
+            </div>
           </div>
-          {tipe === 'sph' && (
-            <div>
-              <label className={labelCls}>Judul Penawaran *</label>
-              <input
-                type="text"
-                value={judul}
-                onChange={(e) => setJudul(e.target.value)}
-                placeholder="Penawaran Jasa..."
-                className={inputCls}
-                required={tipe === 'sph'}
-              />
+
+          {/* Info Dokumen */}
+          <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
+            <h2 className="font-semibold text-textPrimary mb-3">Info Dokumen</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div className={tipe === 'sph' ? '' : 'col-span-2 md:col-span-1'}>
+                <label className={labelCls}>Klien *</label>
+                <select value={klienId} onChange={(e) => setKlienId(e.target.value)} required className={inputCls}>
+                  <option value="">-- Pilih Klien --</option>
+                  {klienList.map((k) => (
+                    <option key={k.id} value={k.id}>{k.nama}</option>
+                  ))}
+                </select>
+              </div>
+              {tipe === 'sph' && (
+                <div>
+                  <label className={labelCls}>Judul Penawaran *</label>
+                  <input type="text" value={judul} onChange={(e) => setJudul(e.target.value)}
+                    placeholder="Penawaran Jasa..." className={inputCls} required={tipe === 'sph'} />
+                </div>
+              )}
+              <div>
+                <label className={labelCls}>Tanggal</label>
+                <input type="date" value={tanggal} onChange={(e) => setTanggal(e.target.value)} className={inputCls} />
+              </div>
+              <div>
+                <label className={labelCls}>Jatuh Tempo</label>
+                <input type="date" value={jatuhTempo} onChange={(e) => setJatuhTempo(e.target.value)} className={inputCls} />
+              </div>
+            </div>
+          </div>
+
+          {/* Surat Hutang fields */}
+          {tipe === 'surat_hutang' && (
+            <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
+              <h2 className="font-semibold text-textPrimary mb-3">Nominal Hutang</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className={labelCls}>Total Hutang (Rp) *</label>
+                  <input type="number" value={nominalHutang} onChange={(e) => setNominalHutang(e.target.value)}
+                    placeholder="5000000" className={inputCls} required={tipe === 'surat_hutang'} min="0" />
+                </div>
+                <div>
+                  <label className={labelCls}>Cicilan per Bulan (Rp)</label>
+                  <input type="number" value={cicilanPerBulan} onChange={(e) => setCicilanPerBulan(e.target.value)}
+                    placeholder="500000" className={inputCls} min="0" />
+                </div>
+              </div>
             </div>
           )}
-          <div>
-            <label className={labelCls}>Tanggal</label>
-            <input type="date" value={tanggal} onChange={(e) => setTanggal(e.target.value)} className={inputCls} />
-          </div>
-          <div>
-            <label className={labelCls}>Jatuh Tempo</label>
-            <input type="date" value={jatuhTempo} onChange={(e) => setJatuhTempo(e.target.value)} className={inputCls} />
-          </div>
-        </div>
-      </div>
 
-      {/* Surat Hutang fields */}
-      {tipe === 'surat_hutang' && (
-        <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
-          <h2 className="font-semibold text-textPrimary mb-4">Nominal Hutang</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className={labelCls}>Total Hutang (Rp) *</label>
-              <input type="number" value={nominalHutang} onChange={(e) => setNominalHutang(e.target.value)}
-                placeholder="5000000" className={inputCls} required={tipe === 'surat_hutang'} min="0" />
+          {/* Items */}
+          {tipe !== 'surat_hutang' && (
+            <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-semibold text-textPrimary">Item</h2>
+                <button type="button" onClick={addItem}
+                  className="text-sm text-primary font-semibold hover:underline">
+                  + Tambah Item
+                </button>
+              </div>
+              <div className="space-y-3">
+                {items.map((item, idx) => (
+                  <div key={idx} className="border border-[#E8E8EE] rounded-card p-4">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-xs font-semibold text-textSecondary uppercase">Item {idx + 1}</span>
+                      {items.length > 1 && (
+                        <button type="button" onClick={() => removeItem(idx)}
+                          className="text-xs text-danger hover:underline">Hapus</button>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="col-span-2">
+                        <label className={labelCls}>Nama Item *</label>
+                        <input type="text" value={item.nama} onChange={(e) => updateItem(idx, 'nama', e.target.value)}
+                          required className={inputCls} placeholder="Nama produk/jasa" />
+                      </div>
+                      <div className="col-span-2">
+                        <label className={labelCls}>Deskripsi</label>
+                        <input type="text" value={item.deskripsi} onChange={(e) => updateItem(idx, 'deskripsi', e.target.value)}
+                          className={inputCls} placeholder="Opsional" />
+                      </div>
+                      <div>
+                        <label className={labelCls}>Qty *</label>
+                        <input type="number" value={item.qty} onChange={(e) => updateItem(idx, 'qty', e.target.value)}
+                          required className={inputCls} min="0" step="0.01" />
+                      </div>
+                      <div>
+                        <label className={labelCls}>Satuan</label>
+                        <input type="text" value={item.satuan} onChange={(e) => updateItem(idx, 'satuan', e.target.value)}
+                          className={inputCls} placeholder="pcs" />
+                      </div>
+                      <div>
+                        <label className={labelCls}>Harga Satuan (Rp) *</label>
+                        <input type="number" value={item.hargaSatuan} onChange={(e) => updateItem(idx, 'hargaSatuan', e.target.value)}
+                          required className={inputCls} min="0" placeholder="0" />
+                      </div>
+                      <div>
+                        <label className={labelCls}>Diskon (%)</label>
+                        <input type="number" value={item.diskonPersen} onChange={(e) => updateItem(idx, 'diskonPersen', e.target.value)}
+                          className={inputCls} min="0" max="100" />
+                      </div>
+                    </div>
+                    {calcSubtotal(item) > 0 && (
+                      <div className="mt-3 text-right text-sm font-semibold text-primary">
+                        Subtotal: {formatRupiah(calcSubtotal(item))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div>
-              <label className={labelCls}>Cicilan per Bulan (Rp)</label>
-              <input type="number" value={cicilanPerBulan} onChange={(e) => setCicilanPerBulan(e.target.value)}
-                placeholder="500000" className={inputCls} min="0" />
-            </div>
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* Items */}
-      {tipe !== 'surat_hutang' && (
-        <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-textPrimary">Item</h2>
-            <button type="button" onClick={addItem}
-              className="text-sm text-primary font-semibold hover:underline flex items-center gap-1">
-              + Tambah Item
-            </button>
+          {/* Catatan & Syarat */}
+          <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
+            <h2 className="font-semibold text-textPrimary mb-3">Catatan & Syarat</h2>
+            <div className="space-y-4">
+              <div>
+                <label className={labelCls}>Catatan</label>
+                <textarea value={catatan} onChange={(e) => setCatatan(e.target.value)}
+                  rows={3} className={inputCls} placeholder="Catatan tambahan (opsional)" />
+              </div>
+              <div>
+                <label className={labelCls}>Syarat & Ketentuan</label>
+                <textarea value={syarat} onChange={(e) => setSyarat(e.target.value)}
+                  rows={4} className={inputCls} placeholder="Pembayaran dilakukan dalam 30 hari..." />
+              </div>
+            </div>
           </div>
-          <div className="space-y-4">
-            {items.map((item, idx) => (
-              <div key={idx} className="border border-[#E8E8EE] rounded-card p-4">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-xs font-semibold text-textSecondary uppercase">Item {idx + 1}</span>
-                  {items.length > 1 && (
-                    <button type="button" onClick={() => removeItem(idx)}
-                      className="text-xs text-danger hover:underline">Hapus</button>
-                  )}
+
+        </div>
+
+        {/* ── Kolom Kanan (sticky summary) ── */}
+        <div className="w-72 shrink-0 sticky top-6 space-y-4">
+
+          {/* Ringkasan Total */}
+          {tipe !== 'surat_hutang' && (
+            <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
+              <h2 className="font-semibold text-textPrimary mb-4">Ringkasan</h2>
+              <div className="space-y-3 mb-4">
+                <div>
+                  <label className={labelCls}>Diskon (%)</label>
+                  <input type="number" value={diskonPersen} onChange={(e) => setDiskonPersen(e.target.value)}
+                    className={inputCls} min="0" max="100" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="md:col-span-2">
-                    <label className={labelCls}>Nama Item *</label>
-                    <input type="text" value={item.nama} onChange={(e) => updateItem(idx, 'nama', e.target.value)}
-                      required className={inputCls} placeholder="Nama produk/jasa" />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className={labelCls}>Deskripsi</label>
-                    <input type="text" value={item.deskripsi} onChange={(e) => updateItem(idx, 'deskripsi', e.target.value)}
-                      className={inputCls} placeholder="Opsional" />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Qty *</label>
-                    <input type="number" value={item.qty} onChange={(e) => updateItem(idx, 'qty', e.target.value)}
-                      required className={inputCls} min="0" step="0.01" />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Satuan</label>
-                    <input type="text" value={item.satuan} onChange={(e) => updateItem(idx, 'satuan', e.target.value)}
-                      className={inputCls} placeholder="pcs" />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Harga Satuan (Rp) *</label>
-                    <input type="number" value={item.hargaSatuan} onChange={(e) => updateItem(idx, 'hargaSatuan', e.target.value)}
-                      required className={inputCls} min="0" placeholder="0" />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Diskon (%)</label>
-                    <input type="number" value={item.diskonPersen} onChange={(e) => updateItem(idx, 'diskonPersen', e.target.value)}
-                      className={inputCls} min="0" max="100" />
-                  </div>
+                <div>
+                  <label className={labelCls}>PPN (%)</label>
+                  <input type="number" value={pajakPersen} onChange={(e) => setPajakPersen(e.target.value)}
+                    className={inputCls} min="0" />
                 </div>
-                {calcSubtotal(item) > 0 && (
-                  <div className="mt-3 text-right text-sm font-semibold text-primary">
-                    Subtotal: {formatRupiah(calcSubtotal(item))}
+              </div>
+              <div className="border-t border-[#E8E8EE] pt-3 space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-textSecondary">Subtotal</span>
+                  <span>{formatRupiah(subtotal)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-textSecondary">Diskon ({diskonPersen}%)</span>
+                  <span className="text-danger">- {formatRupiah(diskonNominal)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-textSecondary">PPN ({pajakPersen}%)</span>
+                  <span>{formatRupiah(pajakNominal)}</span>
+                </div>
+                <div className="border-t-2 border-primary pt-2 flex justify-between font-bold text-primary text-base">
+                  <span>TOTAL</span>
+                  <span>{formatRupiah(total)}</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Surat hutang summary */}
+          {tipe === 'surat_hutang' && nominalHutang && (
+            <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
+              <h2 className="font-semibold text-textPrimary mb-3">Ringkasan</h2>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-textSecondary">Total Hutang</span>
+                  <span className="font-bold text-primary">{formatRupiah(parseFloat(nominalHutang) || 0)}</span>
+                </div>
+                {cicilanPerBulan && (
+                  <div className="flex justify-between">
+                    <span className="text-textSecondary">Cicilan/Bulan</span>
+                    <span className="font-semibold">{formatRupiah(parseFloat(cicilanPerBulan) || 0)}</span>
                   </div>
                 )}
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </div>
+          )}
 
-      {/* Totals */}
-      {tipe !== 'surat_hutang' && (
-        <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
-          <h2 className="font-semibold text-textPrimary mb-4">Total</h2>
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className={labelCls}>Diskon (%)</label>
-              <input type="number" value={diskonPersen} onChange={(e) => setDiskonPersen(e.target.value)}
-                className={inputCls} min="0" max="100" />
-            </div>
-            <div>
-              <label className={labelCls}>PPN (%)</label>
-              <input type="number" value={pajakPersen} onChange={(e) => setPajakPersen(e.target.value)}
-                className={inputCls} min="0" />
-            </div>
+          {/* Submit */}
+          <div className="flex flex-col gap-2">
+            <button type="submit" disabled={submitting}
+              className="w-full px-6 py-2.5 bg-primary text-white rounded-button text-sm font-semibold
+                hover:bg-[#163264] transition-colors disabled:opacity-60">
+              {submitting ? 'Menyimpan...' : isEdit ? 'Perbarui Dokumen' : 'Simpan Dokumen'}
+            </button>
+            <button type="button" onClick={() => router.back()}
+              className="w-full px-5 py-2.5 border border-[#E8E8EE] rounded-button text-sm font-semibold
+                text-textPrimary hover:bg-bgLight transition-colors">
+              Batal
+            </button>
           </div>
-          <div className="max-w-xs ml-auto space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-textSecondary">Subtotal</span>
-              <span>{formatRupiah(subtotal)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-textSecondary">Diskon ({diskonPersen}%)</span>
-              <span>- {formatRupiah(diskonNominal)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-textSecondary">PPN ({pajakPersen}%)</span>
-              <span>{formatRupiah(pajakNominal)}</span>
-            </div>
-            <div className="border-t-2 border-primary pt-2 flex justify-between font-bold text-primary text-base">
-              <span>TOTAL</span>
-              <span>{formatRupiah(total)}</span>
-            </div>
-          </div>
-        </div>
-      )}
 
-      {/* Catatan & Syarat */}
-      <div className="bg-white rounded-card border border-[#E8E8EE] p-5">
-        <h2 className="font-semibold text-textPrimary mb-4">Catatan & Syarat</h2>
-        <div className="space-y-4">
-          <div>
-            <label className={labelCls}>Catatan</label>
-            <textarea value={catatan} onChange={(e) => setCatatan(e.target.value)}
-              rows={3} className={inputCls} placeholder="Catatan tambahan (opsional)" />
-          </div>
-          <div>
-            <label className={labelCls}>Syarat & Ketentuan</label>
-            <textarea value={syarat} onChange={(e) => setSyarat(e.target.value)}
-              rows={4} className={inputCls} placeholder="Pembayaran dilakukan dalam 30 hari..." />
-          </div>
         </div>
-      </div>
-
-      {/* Submit */}
-      <div className="flex gap-3 justify-end">
-        <button type="button" onClick={() => router.back()}
-          className="px-5 py-2.5 border border-[#E8E8EE] rounded-button text-sm font-semibold
-            text-textPrimary hover:bg-bgLight transition-colors">
-          Batal
-        </button>
-        <button type="submit" disabled={submitting}
-          className="px-6 py-2.5 bg-primary text-white rounded-button text-sm font-semibold
-            hover:bg-[#163264] transition-colors disabled:opacity-60">
-          {submitting ? 'Menyimpan...' : isEdit ? 'Perbarui Dokumen' : 'Simpan Dokumen'}
-        </button>
       </div>
     </form>
   );
