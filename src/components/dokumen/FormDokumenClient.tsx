@@ -137,7 +137,7 @@ export default function FormDokumenClient({ initialData }: { initialData?: Initi
         pajakPersen: parseFloat(pajakPersen) || 11,
         catatan: catatan || undefined,
         syaratKetentuan: syarat || undefined,
-        items: items.map((item, idx) => ({
+        items: tipe === 'surat_hutang' ? [] : items.map((item, idx) => ({
           urutan: idx + 1,
           nama: item.nama,
           deskripsi: item.deskripsi || undefined,
