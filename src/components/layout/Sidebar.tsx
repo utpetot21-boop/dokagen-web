@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const navItems = [
   {
@@ -55,20 +57,35 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/perusahaan/branding`)
+      .then((r) => r.json())
+      .then((j) => {
+        const url = j.data?.logoUrl;
+        if (url) setLogoUrl(url.startsWith('http') ? url : `https://api.dokagen.online${url}`);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <aside className="w-56 h-screen sticky top-0 bg-white border-r border-[#E5E5EA] flex flex-col overflow-y-auto flex-shrink-0">
       {/* Brand */}
       <div className="px-4 py-4 border-b border-[#E5E5EA]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-primary rounded-[10px] flex items-center justify-center flex-shrink-0 shadow-ios">
-            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
+          <div className="w-8 h-8 rounded-[10px] flex items-center justify-center flex-shrink-0 overflow-hidden bg-primary shadow-ios">
+            {logoUrl ? (
+              <Image src={logoUrl} alt="Logo" width={32} height={32} className="w-full h-full object-contain" />
+            ) : (
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            )}
           </div>
           <div>
-            <p className="font-bold text-sm text-textPrimary tracking-tight">DokaGen</p>
+            <p className="font-bold text-sm text-textPrimary tracking-tight">Nustech</p>
             <p className="text-[10px] text-textSecondary">Document Manager</p>
           </div>
         </div>
